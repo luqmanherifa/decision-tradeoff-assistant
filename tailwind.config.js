@@ -2,7 +2,12 @@
 export default {
   content: ["./index.html", "./src/**/*.{js,jsx}"],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        sans: ["Plus Jakarta Sans", "ui-sans-serif", "system-ui"],
+        heading: ["Plus Jakarta Sans", "ui-sans-serif", "system-ui"],
+      },
+    },
   },
   plugins: [],
 };
