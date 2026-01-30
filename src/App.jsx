@@ -237,22 +237,22 @@ export default function App() {
   const filteredDeltas = getFilteredDeltas();
 
   return (
-    <div className="min-h-screen bg-slate-50 pb-8">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 pb-6">
       <div className="max-w-md mx-auto">
-        <div className="bg-slate-700 text-white p-4 mb-4">
-          <h1 className="text-xl font-bold">Bandingin Pilihan</h1>
-          <p className="text-xs text-slate-300 mt-1">
+        <div className="bg-gradient-to-r from-slate-700 via-slate-600 to-slate-700 text-white px-4 py-5 mb-4">
+          <h1 className="text-lg font-bold">Bandingin Pilihan</h1>
+          <p className="text-xs text-slate-200 mt-1">
             Lihat jelas apa yang kamu dapat dan korbankan
           </p>
         </div>
 
         <div className="px-4 mb-4">
-          <div className="bg-white rounded-lg shadow-sm p-4">
-            <h2 className="text-sm font-semibold text-slate-600 mb-2 uppercase tracking-wide">
+          <div className="bg-white rounded-xl border-2 border-slate-200 p-4">
+            <h2 className="text-xs font-bold text-slate-600 mb-2 uppercase tracking-wider">
               Keputusan Apa?
             </h2>
             <input
-              className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-400 focus:border-transparent"
+              className="w-full px-3 py-2.5 border-2 border-slate-300 rounded-lg text-sm focus:outline-none focus:border-slate-500"
               placeholder="Beli kopi di cafe atau bikin sendiri?"
               value={decisionContext}
               onChange={(e) => setDecisionContext(e.target.value)}
@@ -261,54 +261,54 @@ export default function App() {
         </div>
 
         <div className="px-4 mb-4">
-          <div className="bg-white rounded-lg shadow-sm p-4">
+          <div className="bg-white rounded-xl border-2 border-slate-200 p-4">
             <div className="flex items-center justify-between mb-3">
-              <h2 className="text-sm font-semibold text-slate-600 uppercase tracking-wide">
+              <h2 className="text-xs font-bold text-slate-600 uppercase tracking-wider">
                 Pilihan
               </h2>
-              <div className="flex gap-1 bg-slate-100 rounded-lg p-1">
+              <div className="flex gap-1 bg-gradient-to-r from-slate-100 to-slate-50 rounded-lg p-1 border border-slate-200">
                 <button
                   onClick={() => setViewMode("detail")}
-                  className={`px-3 py-1 text-xs font-medium rounded transition-colors ${
+                  className={`px-3 py-1.5 text-xs font-semibold rounded-md transition-all ${
                     viewMode === "detail"
-                      ? "bg-white text-slate-700 shadow-sm"
-                      : "text-slate-500 hover:text-slate-700"
+                      ? "bg-gradient-to-r from-slate-700 to-slate-600 text-white"
+                      : "text-slate-600"
                   }`}
                 >
-                  📝 Lengkap
+                  Lengkap
                 </button>
                 <button
                   onClick={() => setViewMode("quick")}
-                  className={`px-3 py-1 text-xs font-medium rounded transition-colors ${
+                  className={`px-3 py-1.5 text-xs font-semibold rounded-md transition-all ${
                     viewMode === "quick"
-                      ? "bg-white text-slate-700 shadow-sm"
-                      : "text-slate-500 hover:text-slate-700"
+                      ? "bg-gradient-to-r from-slate-700 to-slate-600 text-white"
+                      : "text-slate-600"
                   }`}
                 >
-                  ⚡ Cepat
+                  Cepat
                 </button>
               </div>
             </div>
             <button
               onClick={addOption}
-              className="w-full mb-4 px-4 py-2.5 bg-slate-600 text-white rounded-lg text-sm font-medium active:bg-slate-700"
+              className="w-full mb-4 px-4 py-3 bg-gradient-to-r from-slate-600 to-slate-700 text-white rounded-lg text-sm font-semibold active:scale-[0.98] transition-transform"
             >
               + Tambah Pilihan
             </button>
 
             {viewMode === "detail" ? (
-              <div className="space-y-4">
+              <div className="space-y-3">
                 {options.map((opt, idx) => (
                   <div
                     key={opt.id}
-                    className="border border-slate-200 rounded-lg p-3"
+                    className="border-2 border-slate-300 rounded-xl p-3 bg-gradient-to-br from-white to-slate-50"
                   >
                     <div className="flex items-center gap-2 mb-3">
-                      <div className="w-6 h-6 rounded-full bg-slate-600 text-white flex items-center justify-center text-xs font-semibold">
+                      <div className="w-7 h-7 rounded-full bg-gradient-to-br from-slate-700 to-slate-600 text-white flex items-center justify-center text-xs font-bold">
                         {idx + 1}
                       </div>
                       <input
-                        className="flex-1 px-3 py-2 border border-slate-300 rounded-lg text-sm font-medium focus:outline-none focus:ring-2 focus:ring-slate-400 focus:border-transparent"
+                        className="flex-1 px-3 py-2.5 border-2 border-slate-300 rounded-lg text-sm font-semibold focus:outline-none focus:border-slate-500"
                         placeholder={
                           idx === 0 ? "Beli di Cafe" : "Bikin Sendiri"
                         }
@@ -321,7 +321,7 @@ export default function App() {
 
                     <button
                       onClick={() => addImpact(opt.id)}
-                      className="w-full mb-3 px-3 py-2 bg-slate-100 text-slate-700 text-xs font-medium rounded border border-slate-200 active:bg-slate-200"
+                      className="w-full mb-3 px-3 py-2.5 bg-gradient-to-r from-slate-100 to-slate-50 text-slate-700 text-xs font-semibold rounded-lg border-2 border-slate-200 active:scale-[0.98] transition-transform"
                     >
                       + Dampak
                     </button>
@@ -330,7 +330,7 @@ export default function App() {
                       {opt.impacts.map((impact) => (
                         <div
                           key={impact.id}
-                          className="bg-slate-50 rounded p-2 space-y-2"
+                          className="bg-gradient-to-br from-slate-50 to-white rounded-lg p-2.5 border-2 border-slate-200 space-y-2"
                         >
                           <div className="flex gap-2">
                             <select
@@ -340,7 +340,7 @@ export default function App() {
                                   dimension: e.target.value,
                                 })
                               }
-                              className="flex-1 px-2 py-1.5 border border-slate-300 rounded text-xs focus:outline-none focus:ring-2 focus:ring-slate-400"
+                              className="flex-1 px-2.5 py-2 border-2 border-slate-300 rounded-lg text-xs font-medium focus:outline-none focus:border-slate-500"
                             >
                               {DIMENSIONS.map((d) => (
                                 <option key={d.key} value={d.key}>
@@ -351,7 +351,7 @@ export default function App() {
 
                             <input
                               type="number"
-                              className="w-16 px-2 py-1.5 border border-slate-300 rounded text-xs text-center focus:outline-none focus:ring-2 focus:ring-slate-400"
+                              className="w-16 px-2.5 py-2 border-2 border-slate-300 rounded-lg text-xs font-bold text-center focus:outline-none focus:border-slate-500"
                               placeholder="0"
                               value={impact.value}
                               onChange={(e) =>
@@ -363,7 +363,7 @@ export default function App() {
                           </div>
 
                           <input
-                            className="w-full px-2 py-1.5 border border-slate-300 rounded text-xs focus:outline-none focus:ring-2 focus:ring-slate-400"
+                            className="w-full px-2.5 py-2 border-2 border-slate-300 rounded-lg text-xs focus:outline-none focus:border-slate-500"
                             placeholder={
                               impact.dimension === "time"
                                 ? "Langsung jadi"
@@ -399,23 +399,23 @@ export default function App() {
             ) : (
               <div>
                 {options.length > 2 && (
-                  <div className="mb-3 px-3 py-2 bg-amber-50 border border-amber-200 rounded text-xs text-amber-900">
-                    ⚠️ Mode cepat maksimal 2 pilihan. Pilihan ke-3 dan
-                    seterusnya disembunyikan.
+                  <div className="mb-3 px-3 py-2.5 bg-gradient-to-r from-amber-50 to-orange-50 border-2 border-amber-300 rounded-lg text-xs font-medium text-amber-900">
+                    Mode cepat maksimal 2 pilihan. Pilihan ke-3 dan seterusnya
+                    disembunyikan.
                   </div>
                 )}
                 <div className="grid grid-cols-2 gap-3">
                   {options.slice(0, 2).map((opt, idx) => (
                     <div
                       key={opt.id}
-                      className="border border-slate-200 rounded-lg p-3"
+                      className="border-2 border-slate-300 rounded-xl p-3 bg-gradient-to-br from-white to-slate-50"
                     >
                       <div className="flex items-center gap-2 mb-3">
-                        <div className="w-5 h-5 flex-shrink-0 rounded-full bg-slate-600 text-white flex items-center justify-center text-[10px] font-semibold">
+                        <div className="w-6 h-6 flex-shrink-0 rounded-full bg-gradient-to-br from-slate-700 to-slate-600 text-white flex items-center justify-center text-xs font-bold">
                           {idx + 1}
                         </div>
                         <input
-                          className="flex-1 min-w-0 px-2 py-1.5 border border-slate-300 rounded text-xs font-medium focus:outline-none focus:ring-2 focus:ring-slate-400 focus:border-transparent"
+                          className="flex-1 min-w-0 px-2 py-2 border-2 border-slate-300 rounded-lg text-xs font-semibold focus:outline-none focus:border-slate-500"
                           placeholder={
                             idx === 0 ? "Beli di Cafe" : "Bikin Sendiri"
                           }
@@ -428,7 +428,7 @@ export default function App() {
 
                       <button
                         onClick={() => addImpact(opt.id)}
-                        className="w-full mb-2 px-2 py-1.5 bg-slate-100 text-slate-700 text-xs font-medium rounded border border-slate-200 active:bg-slate-200"
+                        className="w-full mb-2 px-2 py-2 bg-gradient-to-r from-slate-100 to-slate-50 text-slate-700 text-xs font-semibold rounded-lg border-2 border-slate-200 active:scale-[0.98] transition-transform"
                       >
                         + Dampak
                       </button>
@@ -437,7 +437,7 @@ export default function App() {
                         {opt.impacts.map((impact) => (
                           <div
                             key={impact.id}
-                            className="bg-slate-50 rounded p-2"
+                            className="bg-gradient-to-br from-slate-50 to-white rounded-lg p-2 border-2 border-slate-200"
                           >
                             <div className="flex items-center gap-2">
                               <select
@@ -447,7 +447,7 @@ export default function App() {
                                     dimension: e.target.value,
                                   })
                                 }
-                                className="flex-1 min-w-0 px-2 py-1 border border-slate-300 rounded text-[10px] focus:outline-none focus:ring-1 focus:ring-slate-400"
+                                className="flex-1 min-w-0 px-2 py-1.5 border-2 border-slate-300 rounded-lg text-xs font-medium focus:outline-none focus:border-slate-500"
                               >
                                 {DIMENSIONS.map((d) => (
                                   <option key={d.key} value={d.key}>
@@ -458,7 +458,7 @@ export default function App() {
 
                               <input
                                 type="number"
-                                className="w-14 flex-shrink-0 px-1 py-1 border border-slate-300 rounded text-[10px] text-center focus:outline-none focus:ring-1 focus:ring-slate-400"
+                                className="w-14 flex-shrink-0 px-1 py-1.5 border-2 border-slate-300 rounded-lg text-xs font-bold text-center focus:outline-none focus:border-slate-500"
                                 placeholder="0"
                                 value={impact.value}
                                 onChange={(e) =>
@@ -481,19 +481,19 @@ export default function App() {
 
         {options.length >= 2 && (
           <div className="px-4 mb-4">
-            <div className="bg-white rounded-lg shadow-sm p-4">
+            <div className="bg-white rounded-xl border-2 border-amber-300 p-4">
               <div className="mb-3">
-                <h2 className="text-sm font-semibold text-slate-600 uppercase tracking-wide">
+                <h2 className="text-xs font-bold text-slate-600 uppercase tracking-wider">
                   Batasan Penting
                 </h2>
-                <p className="text-xs text-slate-500 mt-1">
+                <p className="text-xs text-slate-500 mt-1 font-medium">
                   Ada yang tidak bisa dikompromikan? Tulis di sini
                 </p>
               </div>
 
               <button
                 onClick={addConstraint}
-                className="w-full mb-4 px-4 py-2.5 bg-amber-600 text-white rounded-lg text-sm font-medium active:bg-amber-700"
+                className="w-full mb-4 px-4 py-3 bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-lg text-sm font-semibold active:scale-[0.98] transition-transform"
               >
                 + Tambah Batasan
               </button>
@@ -502,10 +502,10 @@ export default function App() {
                 {constraints.map((constraint) => (
                   <div
                     key={constraint.id}
-                    className="border border-amber-200 bg-amber-50 rounded-lg p-3"
+                    className="border-2 border-amber-300 bg-gradient-to-br from-amber-50 to-orange-50 rounded-xl p-3"
                   >
                     <input
-                      className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm mb-3 focus:outline-none focus:ring-2 focus:ring-amber-400"
+                      className="w-full px-3 py-2.5 border-2 border-amber-300 rounded-lg text-sm font-medium mb-3 focus:outline-none focus:border-amber-500"
                       placeholder="Budget kopi 300rb/bulan"
                       value={constraint.text}
                       onChange={(e) =>
@@ -516,7 +516,7 @@ export default function App() {
                     />
 
                     <div className="mb-3">
-                      <p className="text-xs font-medium text-slate-600 mb-2">
+                      <p className="text-xs font-bold text-slate-600 mb-2">
                         Pilihan yang memenuhi batasan ini?
                       </p>
                       <div className="space-y-2">
@@ -535,9 +535,9 @@ export default function App() {
                                   e.target.checked,
                                 )
                               }
-                              className="w-4 h-4 rounded border-slate-300 text-amber-600 focus:ring-amber-500"
+                              className="w-4 h-4 rounded border-2 border-slate-400 text-amber-600 focus:ring-0 focus:ring-offset-0"
                             />
-                            <span className="text-slate-700">
+                            <span className="text-slate-700 font-medium">
                               {opt.title ||
                                 `Pilihan ${options.indexOf(opt) + 1}`}
                             </span>
@@ -555,9 +555,9 @@ export default function App() {
                           onChange={() =>
                             updateConstraint(constraint.id, { type: "soft" })
                           }
-                          className="w-3.5 h-3.5 text-amber-600 focus:ring-amber-500"
+                          className="w-4 h-4 border-2 border-slate-400 text-amber-600 focus:ring-0 focus:ring-offset-0"
                         />
-                        <span className="text-slate-700">
+                        <span className="text-slate-700 font-medium">
                           Lunak (kena penalti)
                         </span>
                       </label>
@@ -569,20 +569,22 @@ export default function App() {
                           onChange={() =>
                             updateConstraint(constraint.id, { type: "hard" })
                           }
-                          className="w-3.5 h-3.5 text-red-600 focus:ring-red-500"
+                          className="w-4 h-4 border-2 border-slate-400 text-red-600 focus:ring-0 focus:ring-offset-0"
                         />
-                        <span className="text-slate-700">Keras (gugur)</span>
+                        <span className="text-slate-700 font-medium">
+                          Keras (gugur)
+                        </span>
                       </label>
                     </div>
 
                     {constraint.type === "soft" && (
                       <div className="mb-3">
-                        <label className="text-xs text-slate-600 block mb-1">
+                        <label className="text-xs text-slate-600 font-bold block mb-1">
                           Penalti kalau dilanggar:
                         </label>
                         <input
                           type="number"
-                          className="w-24 px-2 py-1.5 border border-slate-300 rounded text-xs text-center focus:outline-none focus:ring-2 focus:ring-amber-400"
+                          className="w-24 px-2.5 py-2 border-2 border-amber-300 rounded-lg text-xs font-bold text-center focus:outline-none focus:border-amber-500"
                           value={constraint.penalty}
                           onChange={(e) =>
                             updateConstraint(constraint.id, {
@@ -595,7 +597,7 @@ export default function App() {
 
                     <button
                       onClick={() => removeConstraint(constraint.id)}
-                      className="text-xs text-red-600 hover:text-red-700 font-medium"
+                      className="text-xs text-red-600 font-bold"
                     >
                       Hapus
                     </button>
@@ -608,17 +610,17 @@ export default function App() {
 
         {result && (
           <div className="px-4">
-            <div className="bg-white rounded-lg shadow-sm p-4">
-              <h2 className="text-sm font-semibold text-slate-600 mb-4 uppercase tracking-wide">
+            <div className="bg-white rounded-xl border-2 border-slate-200 p-4">
+              <h2 className="text-xs font-bold text-slate-600 mb-4 uppercase tracking-wider">
                 Hasil
               </h2>
 
               <div className="mb-4">
                 <div className="flex items-center gap-2 mb-2">
-                  <span className="text-xs font-medium text-blue-700 w-20 text-right">
+                  <span className="text-xs font-bold text-blue-700 w-20 text-right">
                     {result.a.title || "Pilihan A"}
                   </span>
-                  <div className="flex-1 h-8 bg-slate-100 rounded-lg overflow-hidden flex">
+                  <div className="flex-1 h-10 bg-gradient-to-r from-slate-100 to-slate-50 rounded-lg overflow-hidden flex border-2 border-slate-300">
                     {(() => {
                       const totalA = result.totals[0].total;
                       const totalB = result.totals[1].total;
@@ -627,12 +629,12 @@ export default function App() {
                       if (absTotal === 0) {
                         return (
                           <>
-                            <div className="w-1/2 bg-blue-400 flex items-center justify-center">
+                            <div className="w-1/2 bg-gradient-to-r from-blue-500 to-blue-400 flex items-center justify-center">
                               <span className="text-xs font-bold text-white">
                                 0
                               </span>
                             </div>
-                            <div className="w-1/2 bg-purple-400 flex items-center justify-center">
+                            <div className="w-1/2 bg-gradient-to-r from-purple-500 to-purple-400 flex items-center justify-center">
                               <span className="text-xs font-bold text-white">
                                 0
                               </span>
@@ -649,8 +651,8 @@ export default function App() {
                           <div
                             className={`flex items-center justify-center transition-all duration-300 ${
                               result.totals[0].isDisqualified
-                                ? "bg-slate-400"
-                                : "bg-blue-500"
+                                ? "bg-gradient-to-r from-slate-400 to-slate-300"
+                                : "bg-gradient-to-r from-blue-600 to-blue-500"
                             }`}
                             style={{ width: `${aWidth}%` }}
                           >
@@ -661,8 +663,8 @@ export default function App() {
                           <div
                             className={`flex items-center justify-center transition-all duration-300 ${
                               result.totals[1].isDisqualified
-                                ? "bg-slate-400"
-                                : "bg-purple-500"
+                                ? "bg-gradient-to-r from-slate-400 to-slate-300"
+                                : "bg-gradient-to-r from-purple-600 to-purple-500"
                             }`}
                             style={{ width: `${bWidth}%` }}
                           >
@@ -674,33 +676,33 @@ export default function App() {
                       );
                     })()}
                   </div>
-                  <span className="text-xs font-medium text-purple-700 w-20">
+                  <span className="text-xs font-bold text-purple-700 w-20">
                     {result.b.title || "Pilihan B"}
                   </span>
                 </div>
 
                 <div className="text-center">
-                  <p className="text-xs text-slate-600">
+                  <p className="text-xs text-slate-600 font-medium">
                     {result.totals[0].isDisqualified &&
                     result.totals[1].isDisqualified ? (
                       <>Kedua pilihan gugur</>
                     ) : result.totals[0].isDisqualified ? (
                       <>
-                        <span className="font-semibold text-blue-700">
+                        <span className="font-bold text-blue-700">
                           {result.a.title || "Pilihan A"}
                         </span>{" "}
                         gugur
                       </>
                     ) : result.totals[1].isDisqualified ? (
                       <>
-                        <span className="font-semibold text-purple-700">
+                        <span className="font-bold text-purple-700">
                           {result.b.title || "Pilihan B"}
                         </span>{" "}
                         gugur
                       </>
                     ) : result.totals[0].total > result.totals[1].total ? (
                       <>
-                        <span className="font-semibold text-blue-700">
+                        <span className="font-bold text-blue-700">
                           {result.a.title || "Pilihan A"}
                         </span>{" "}
                         unggul{" "}
@@ -711,7 +713,7 @@ export default function App() {
                       </>
                     ) : result.totals[0].total < result.totals[1].total ? (
                       <>
-                        <span className="font-semibold text-purple-700">
+                        <span className="font-bold text-purple-700">
                           {result.b.title || "Pilihan B"}
                         </span>{" "}
                         unggul{" "}
@@ -734,25 +736,28 @@ export default function App() {
                       return (
                         <div
                           key={total.optionId}
-                          className={`text-xs px-3 py-2 rounded ${
+                          className={`text-xs px-3 py-2.5 rounded-lg border-2 ${
                             total.isDisqualified
-                              ? "bg-red-50 border border-red-200"
-                              : "bg-amber-50 border border-amber-200"
+                              ? "bg-gradient-to-r from-red-50 to-rose-50 border-red-300"
+                              : "bg-gradient-to-r from-amber-50 to-orange-50 border-amber-300"
                           }`}
                         >
-                          <div className="font-semibold text-slate-700 mb-1">
+                          <div className="font-bold text-slate-700 mb-1">
                             {total.title || `Pilihan ${idx === 0 ? "A" : "B"}`}:
                           </div>
                           {total.violations.map((v, vIdx) => (
-                            <div key={vIdx} className="text-slate-600 ml-2">
+                            <div
+                              key={vIdx}
+                              className="text-slate-600 ml-2 font-medium"
+                            >
                               • {v.text}
                               {v.type === "soft" && (
-                                <span className="text-amber-700 font-medium ml-1">
+                                <span className="text-amber-700 font-bold ml-1">
                                   ({v.penalty} poin)
                                 </span>
                               )}
                               {v.type === "hard" && (
-                                <span className="text-red-700 font-medium ml-1">
+                                <span className="text-red-700 font-bold ml-1">
                                   (gugur)
                                 </span>
                               )}
@@ -760,7 +765,7 @@ export default function App() {
                           ))}
                           {!total.isDisqualified &&
                             total.constraintPenalty !== 0 && (
-                              <div className="mt-1 text-slate-500 text-[11px]">
+                              <div className="mt-1 text-slate-500 text-xs font-medium">
                                 Skor dampak: {total.impactTotal} → Skor akhir:{" "}
                                 {total.total}
                               </div>
@@ -775,47 +780,47 @@ export default function App() {
               {result.deltas.length > 0 && (
                 <div className="mb-4">
                   <div className="flex items-center gap-2 mb-3">
-                    <h3 className="text-xs font-semibold text-slate-500 uppercase">
+                    <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider">
                       Beda Utama
                     </h3>
                     <div className="flex-1"></div>
                     <div className="flex gap-1">
                       <button
                         onClick={() => setFilterMode("all")}
-                        className={`px-2 py-1 text-[10px] font-medium rounded transition-colors ${
+                        className={`px-2.5 py-1.5 text-xs font-bold rounded-md transition-all border-2 ${
                           filterMode === "all"
-                            ? "bg-slate-600 text-white"
-                            : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                            ? "bg-gradient-to-r from-slate-600 to-slate-700 text-white border-slate-700"
+                            : "bg-white text-slate-600 border-slate-300"
                         }`}
                       >
                         Semua
                       </button>
                       <button
                         onClick={() => setFilterMode("positive")}
-                        className={`px-2 py-1 text-[10px] font-medium rounded transition-colors ${
+                        className={`px-2.5 py-1.5 text-xs font-bold rounded-md transition-all border-2 ${
                           filterMode === "positive"
-                            ? "bg-green-600 text-white"
-                            : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                            ? "bg-gradient-to-r from-green-600 to-emerald-600 text-white border-green-700"
+                            : "bg-white text-slate-600 border-slate-300"
                         }`}
                       >
                         Untung
                       </button>
                       <button
                         onClick={() => setFilterMode("negative")}
-                        className={`px-2 py-1 text-[10px] font-medium rounded transition-colors ${
+                        className={`px-2.5 py-1.5 text-xs font-bold rounded-md transition-all border-2 ${
                           filterMode === "negative"
-                            ? "bg-red-600 text-white"
-                            : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                            ? "bg-gradient-to-r from-red-600 to-rose-600 text-white border-red-700"
+                            : "bg-white text-slate-600 border-slate-300"
                         }`}
                       >
                         Rugi
                       </button>
                       <button
                         onClick={() => setFilterMode("significant")}
-                        className={`px-2 py-1 text-[10px] font-medium rounded transition-colors ${
+                        className={`px-2.5 py-1.5 text-xs font-bold rounded-md transition-all border-2 ${
                           filterMode === "significant"
-                            ? "bg-amber-600 text-white"
-                            : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                            ? "bg-gradient-to-r from-amber-600 to-orange-600 text-white border-amber-700"
+                            : "bg-white text-slate-600 border-slate-300"
                         }`}
                       >
                         &gt;3
@@ -842,7 +847,7 @@ export default function App() {
                         return (
                           <div
                             key={d.dimension}
-                            className="bg-slate-50 rounded-lg p-3 border border-slate-200"
+                            className="bg-gradient-to-br from-slate-50 to-white rounded-xl p-3 border-2 border-slate-300"
                           >
                             <div className="flex items-center justify-between mb-1">
                               <span className="text-xs font-bold text-slate-700">
@@ -859,10 +864,10 @@ export default function App() {
                                 {d.delta}
                               </span>
                             </div>
-                            <p className="text-xs text-slate-600 leading-relaxed">
+                            <p className="text-xs text-slate-600 leading-relaxed font-medium">
                               Pilih{" "}
                               <span
-                                className={`font-semibold ${
+                                className={`font-bold ${
                                   d.delta > 0
                                     ? "text-purple-700"
                                     : "text-blue-700"
@@ -872,7 +877,7 @@ export default function App() {
                               </span>{" "}
                               dapat +{Math.abs(d.delta)}{" "}
                               {dimLabel.toLowerCase()} dibanding{" "}
-                              <span className="font-semibold text-slate-700">
+                              <span className="font-bold text-slate-700">
                                 {loserName}
                               </span>
                             </p>
@@ -881,8 +886,8 @@ export default function App() {
                       })}
                     </div>
                   ) : (
-                    <div className="text-center py-6 bg-slate-50 rounded-lg border border-slate-200">
-                      <p className="text-xs text-slate-400">
+                    <div className="text-center py-6 bg-gradient-to-br from-slate-50 to-white rounded-xl border-2 border-slate-300">
+                      <p className="text-xs text-slate-400 font-medium">
                         Tidak ada yang cocok dengan filter
                       </p>
                     </div>
@@ -892,25 +897,21 @@ export default function App() {
 
               {(result.isCloseCall || result.hasExtremeSacrifice) && (
                 <div className="space-y-2">
-                  <h3 className="text-xs font-semibold text-slate-500 uppercase">
+                  <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider">
                     Perlu Diperhatikan
                   </h3>
 
                   {result.isCloseCall && (
-                    <div className="px-3 py-2 bg-amber-50 border border-amber-200 rounded text-xs text-amber-900 leading-relaxed">
-                      <span className="font-semibold">⚖️ Hampir Sama:</span>{" "}
-                      Selisih skor sangat tipis. Kembali pada prioritas Anda
-                      saat ini.
+                    <div className="px-3 py-2.5 bg-gradient-to-r from-amber-50 to-orange-50 border-2 border-amber-300 rounded-lg text-xs text-amber-900 leading-relaxed font-medium">
+                      <span className="font-bold">Hampir Sama:</span> Selisih
+                      skor sangat tipis. Kembali pada prioritas Anda saat ini.
                     </div>
                   )}
 
                   {result.hasExtremeSacrifice && (
-                    <div className="px-3 py-2 bg-red-50 border border-red-200 rounded text-xs text-red-900 leading-relaxed">
-                      <span className="font-semibold">
-                        ⚠️ Ada Dampak Berat:
-                      </span>{" "}
-                      Ada pengorbanan yang cukup signifikan di salah satu
-                      pilihan.
+                    <div className="px-3 py-2.5 bg-gradient-to-r from-red-50 to-rose-50 border-2 border-red-300 rounded-lg text-xs text-red-900 leading-relaxed font-medium">
+                      <span className="font-bold">Ada Dampak Berat:</span> Ada
+                      pengorbanan yang cukup signifikan di salah satu pilihan.
                       {result.sacrifices.a &&
                         result.sacrifices.a.value <= -5 && (
                           <div className="mt-1">
