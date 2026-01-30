@@ -102,7 +102,75 @@ export default function App() {
       })
       .sort((x, y) => Math.abs(y.delta) - Math.abs(x.delta));
 
-    return { totals, deltas, a, b };
+    const getBiggestSacrifice = (option) => {
+      if (option.impacts.length === 0) return null;
+      const negatives = option.impacts.filter((i) => Number(i.value) < 0);
+      if (negatives.length === 0) return null;
+
+      const worst = negatives.reduce((min, impact) =>
+        Number(impact.value) < Number(min.value) ? impact : min,
+      );
+
+      return {
+        dimension: worst.dimension,
+        value: Number(worst.value),
+        text: worst.text,
+      };
+    };
+
+    const sacrifices = {
+      a: getBiggestSacrifice(a),
+      b: getBiggestSacrifice(b),
+    };
+
+    const totalA = totals[0].total;
+    const totalB = totals[1].total;
+    const scoreDiff = Math.abs(totalA - totalB);
+    const closeCallThreshold = 3;
+
+    const isCloseCall = scoreDiff <= closeCallThreshold;
+    const decidingFactors = isCloseCall ? deltas.slice(0, 3) : [];
+
+    const getDimensionContributions = (option) => {
+      const contributions = {};
+      option.impacts.forEach((impact) => {
+        const val = Math.abs(Number(impact.value));
+        if (!contributions[impact.dimension]) {
+          contributions[impact.dimension] = 0;
+        }
+        contributions[impact.dimension] += val;
+      });
+      return contributions;
+    };
+
+    const aContributions = getDimensionContributions(a);
+    const bContributions = getDimensionContributions(b);
+
+    const allContributions = {};
+    Object.keys(aContributions).forEach((dim) => {
+      allContributions[dim] =
+        (allContributions[dim] || 0) + aContributions[dim];
+    });
+    Object.keys(bContributions).forEach((dim) => {
+      allContributions[dim] =
+        (allContributions[dim] || 0) + bContributions[dim];
+    });
+
+    const implicitPriorities = Object.entries(allContributions)
+      .map(([dimension, contribution]) => ({ dimension, contribution }))
+      .sort((x, y) => y.contribution - x.contribution)
+      .slice(0, 3);
+
+    return {
+      totals,
+      deltas,
+      a,
+      b,
+      sacrifices,
+      isCloseCall,
+      decidingFactors,
+      implicitPriorities,
+    };
   };
 
   const result = compare();
@@ -248,7 +316,65 @@ export default function App() {
                     </div>
                   ))}
                 </div>
+
+                {result.isCloseCall && (
+                  <div className="mt-3 px-3 py-2 bg-amber-50 border border-amber-200 rounded text-xs text-amber-800">
+                    <span className="font-semibold">⚖️ Keputusan Sulit:</span>{" "}
+                    Skor hampir sama (selisih ≤3). Faktor penentu ada di detail
+                    trade-off.
+                  </div>
+                )}
               </div>
+
+              {(result.sacrifices.a || result.sacrifices.b) && (
+                <div className="mb-4">
+                  <h3 className="text-xs font-semibold text-slate-500 mb-2 uppercase">
+                    Pengorbanan Terbesar
+                  </h3>
+                  <div className="space-y-2">
+                    {result.sacrifices.a && (
+                      <div className="px-3 py-2 bg-red-50 border border-red-200 rounded">
+                        <div className="text-xs font-semibold text-red-700 mb-1">
+                          {result.a.title || "Opsi A"}
+                        </div>
+                        <div className="text-xs text-slate-700">
+                          <span className="font-medium">
+                            {
+                              DIMENSIONS.find(
+                                (d) => d.key === result.sacrifices.a.dimension,
+                              )?.label
+                            }
+                            :
+                          </span>{" "}
+                          {result.sacrifices.a.value}
+                          {result.sacrifices.a.text &&
+                            ` - ${result.sacrifices.a.text}`}
+                        </div>
+                      </div>
+                    )}
+                    {result.sacrifices.b && (
+                      <div className="px-3 py-2 bg-red-50 border border-red-200 rounded">
+                        <div className="text-xs font-semibold text-red-700 mb-1">
+                          {result.b.title || "Opsi B"}
+                        </div>
+                        <div className="text-xs text-slate-700">
+                          <span className="font-medium">
+                            {
+                              DIMENSIONS.find(
+                                (d) => d.key === result.sacrifices.b.dimension,
+                              )?.label
+                            }
+                            :
+                          </span>{" "}
+                          {result.sacrifices.b.value}
+                          {result.sacrifices.b.text &&
+                            ` - ${result.sacrifices.b.text}`}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
 
               <div className="mb-4">
                 <h3 className="text-xs font-semibold text-slate-500 mb-2 uppercase">
@@ -289,7 +415,7 @@ export default function App() {
                 </div>
               </div>
 
-              <div>
+              <div className="mb-4">
                 <h3 className="text-xs font-semibold text-slate-500 mb-2 uppercase">
                   Insight
                 </h3>
@@ -311,6 +437,39 @@ export default function App() {
                   </div>
                 )}
               </div>
+
+              {result.implicitPriorities.length > 0 && (
+                <div>
+                  <h3 className="text-xs font-semibold text-slate-500 mb-2 uppercase">
+                    Prioritas Tersembunyi
+                  </h3>
+                  <div className="px-3 py-3 bg-purple-50 rounded border border-purple-200">
+                    <p className="text-xs text-slate-600 mb-2">
+                      Berdasarkan bobot total yang kamu berikan, dimensi ini
+                      tampak paling penting:
+                    </p>
+                    <div className="space-y-1">
+                      {result.implicitPriorities.map((p, idx) => (
+                        <div
+                          key={p.dimension}
+                          className="flex items-center gap-2 text-xs"
+                        >
+                          <span className="text-purple-600 font-semibold">
+                            {idx + 1}.
+                          </span>
+                          <span className="text-slate-700 font-medium">
+                            {DIMENSIONS.find((d) => d.key === p.dimension)
+                              ?.label || p.dimension}
+                          </span>
+                          <span className="text-slate-400 text-[10px]">
+                            (bobot: {p.contribution})
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         )}
