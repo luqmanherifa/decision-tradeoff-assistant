@@ -635,74 +635,76 @@ export default function App() {
                 Hasil
               </h2>
 
-              <div className="mb-4">
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="text-xs font-bold text-blue-700 w-20 text-right">
-                    {result.a.title || "Pilihan A"}
-                  </span>
-                  <div className="flex-1 h-10 bg-gradient-to-r from-slate-100 to-slate-50 rounded-lg overflow-hidden flex border-2 border-slate-300">
-                    {(() => {
-                      const totalA = result.totals[0].total;
-                      const totalB = result.totals[1].total;
-                      const absTotal = Math.abs(totalA) + Math.abs(totalB);
-
-                      if (absTotal === 0) {
-                        return (
-                          <>
-                            <div className="w-1/2 bg-gradient-to-r from-blue-500 to-blue-400 flex items-center justify-center">
-                              <span className="text-xs font-bold text-white">
-                                0
-                              </span>
-                            </div>
-                            <div className="w-1/2 bg-gradient-to-r from-purple-500 to-purple-400 flex items-center justify-center">
-                              <span className="text-xs font-bold text-white">
-                                0
-                              </span>
-                            </div>
-                          </>
-                        );
-                      }
-
-                      const aWidth = (Math.abs(totalA) / absTotal) * 100;
-                      const bWidth = (Math.abs(totalB) / absTotal) * 100;
-
-                      return (
-                        <>
-                          <div
-                            className={`flex items-center justify-center transition-all duration-300 ${
-                              result.totals[0].isDisqualified
-                                ? "bg-gradient-to-r from-slate-400 to-slate-300"
-                                : "bg-gradient-to-r from-blue-600 to-blue-500"
-                            }`}
-                            style={{ width: `${aWidth}%` }}
-                          >
-                            <span className="text-xs font-bold text-white">
-                              {result.totals[0].isDisqualified ? "✗" : totalA}
-                            </span>
-                          </div>
-                          <div
-                            className={`flex items-center justify-center transition-all duration-300 ${
-                              result.totals[1].isDisqualified
-                                ? "bg-gradient-to-r from-slate-400 to-slate-300"
-                                : "bg-gradient-to-r from-purple-600 to-purple-500"
-                            }`}
-                            style={{ width: `${bWidth}%` }}
-                          >
-                            <span className="text-xs font-bold text-white">
-                              {result.totals[1].isDisqualified ? "✗" : totalB}
-                            </span>
-                          </div>
-                        </>
-                      );
-                    })()}
+              <div className="mb-6">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="flex-1 text-right">
+                    <div className="text-xs font-bold text-blue-700 mb-1">
+                      {result.a.title || "Pilihan A"}
+                    </div>
+                    <div className="text-lg font-bold text-blue-600">
+                      {result.totals[0].isDisqualified
+                        ? "✗"
+                        : result.totals[0].total}
+                    </div>
                   </div>
-                  <span className="text-xs font-bold text-purple-700 w-20">
-                    {result.b.title || "Pilihan B"}
-                  </span>
+
+                  <div className="w-1 h-12 bg-gradient-to-b from-slate-200 via-slate-300 to-slate-200 rounded-full"></div>
+
+                  <div className="flex-1">
+                    <div className="text-xs font-bold text-purple-700 mb-1">
+                      {result.b.title || "Pilihan B"}
+                    </div>
+                    <div className="text-lg font-bold text-purple-600">
+                      {result.totals[1].isDisqualified
+                        ? "✗"
+                        : result.totals[1].total}
+                    </div>
+                  </div>
                 </div>
 
-                <div className="text-center">
-                  <p className="text-xs text-slate-600 font-medium">
+                <div className="h-3 bg-gradient-to-r from-slate-100 to-slate-50 rounded-full overflow-hidden flex border-2 border-slate-300">
+                  {(() => {
+                    const totalA = result.totals[0].total;
+                    const totalB = result.totals[1].total;
+                    const absTotal = Math.abs(totalA) + Math.abs(totalB);
+
+                    if (absTotal === 0) {
+                      return (
+                        <>
+                          <div className="w-1/2 bg-gradient-to-r from-blue-500 to-blue-400"></div>
+                          <div className="w-1/2 bg-gradient-to-r from-purple-500 to-purple-400"></div>
+                        </>
+                      );
+                    }
+
+                    const aWidth = (Math.abs(totalA) / absTotal) * 100;
+                    const bWidth = (Math.abs(totalB) / absTotal) * 100;
+
+                    return (
+                      <>
+                        <div
+                          className={`transition-all duration-300 ${
+                            result.totals[0].isDisqualified
+                              ? "bg-gradient-to-r from-slate-400 to-slate-300"
+                              : "bg-gradient-to-r from-blue-600 to-blue-500"
+                          }`}
+                          style={{ width: `${aWidth}%` }}
+                        ></div>
+                        <div
+                          className={`transition-all duration-300 ${
+                            result.totals[1].isDisqualified
+                              ? "bg-gradient-to-r from-slate-400 to-slate-300"
+                              : "bg-gradient-to-r from-purple-600 to-purple-500"
+                          }`}
+                          style={{ width: `${bWidth}%` }}
+                        ></div>
+                      </>
+                    );
+                  })()}
+                </div>
+
+                <div className="text-center mt-3 px-4">
+                  <p className="text-xs text-slate-600 font-medium leading-relaxed">
                     {result.totals[0].isDisqualified &&
                     result.totals[1].isDisqualified ? (
                       <>Kedua pilihan gugur</>
@@ -747,58 +749,84 @@ export default function App() {
                     )}
                   </p>
                 </div>
+              </div>
 
-                {(result.totals[0].violations.length > 0 ||
-                  result.totals[1].violations.length > 0) && (
-                  <div className="mt-3 space-y-2">
+              {(result.totals[0].violations.length > 0 ||
+                result.totals[1].violations.length > 0) && (
+                <div className="mb-6">
+                  <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">
+                    Pelanggaran Batasan
+                  </h3>
+                  <div className="space-y-2">
                     {result.totals.map((total, idx) => {
                       if (total.violations.length === 0) return null;
                       return (
                         <div
                           key={total.optionId}
-                          className={`text-xs px-3 py-2.5 rounded-lg border-2 ${
+                          className={`rounded-xl p-3 border-2 ${
                             total.isDisqualified
                               ? "bg-gradient-to-r from-red-50 to-rose-50 border-red-300"
                               : "bg-gradient-to-r from-amber-50 to-orange-50 border-amber-300"
                           }`}
                         >
-                          <div className="font-bold text-slate-700 mb-1">
-                            {total.title || `Pilihan ${idx === 0 ? "A" : "B"}`}:
+                          <div className="flex items-center justify-between mb-2">
+                            <span className="text-xs font-bold text-slate-700">
+                              {total.title ||
+                                `Pilihan ${idx === 0 ? "A" : "B"}`}
+                            </span>
+                            {total.isDisqualified && (
+                              <span className="text-xs font-bold text-red-700 bg-red-100 px-2 py-0.5 rounded-full border border-red-300">
+                                GUGUR
+                              </span>
+                            )}
                           </div>
-                          {total.violations.map((v, vIdx) => (
-                            <div
-                              key={vIdx}
-                              className="text-slate-600 ml-2 font-medium"
-                            >
-                              • {v.text}
-                              {v.type === "soft" && (
-                                <span className="text-amber-700 font-bold ml-1">
-                                  ({v.penalty} poin)
+                          <div className="space-y-1">
+                            {total.violations.map((v, vIdx) => (
+                              <div
+                                key={vIdx}
+                                className="text-xs text-slate-600 font-medium flex items-start gap-1.5"
+                              >
+                                <span className="text-slate-400 mt-0.5">•</span>
+                                <span className="flex-1">
+                                  {v.text}
+                                  {v.type === "soft" && (
+                                    <span className="text-amber-700 font-bold ml-1">
+                                      ({v.penalty} poin)
+                                    </span>
+                                  )}
+                                  {v.type === "hard" && (
+                                    <span className="text-red-700 font-bold ml-1">
+                                      (gugur)
+                                    </span>
+                                  )}
                                 </span>
-                              )}
-                              {v.type === "hard" && (
-                                <span className="text-red-700 font-bold ml-1">
-                                  (gugur)
-                                </span>
-                              )}
-                            </div>
-                          ))}
+                              </div>
+                            ))}
+                          </div>
                           {!total.isDisqualified &&
                             total.constraintPenalty !== 0 && (
-                              <div className="mt-1 text-slate-500 text-xs font-medium">
-                                Skor dampak: {total.impactTotal} → Skor akhir:{" "}
-                                {total.total}
+                              <div className="mt-2 pt-2 border-t border-slate-200">
+                                <div className="text-xs text-slate-500 font-medium">
+                                  Skor dampak:{" "}
+                                  <span className="font-bold">
+                                    {total.impactTotal}
+                                  </span>{" "}
+                                  → Skor akhir:{" "}
+                                  <span className="font-bold">
+                                    {total.total}
+                                  </span>
+                                </div>
                               </div>
                             )}
                         </div>
                       );
                     })}
                   </div>
-                )}
-              </div>
+                </div>
+              )}
 
               {result.deltas.length > 0 && (
-                <div className="mb-4">
+                <div className="mb-6">
                   <div className="flex items-center gap-2 mb-3">
                     <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider">
                       Beda Utama
@@ -917,19 +945,19 @@ export default function App() {
 
               {(result.isCloseCall || result.hasExtremeSacrifice) && (
                 <div className="space-y-2">
-                  <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider">
+                  <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">
                     Perlu Diperhatikan
                   </h3>
 
                   {result.isCloseCall && (
-                    <div className="px-3 py-2.5 bg-gradient-to-r from-amber-50 to-orange-50 border-2 border-amber-300 rounded-lg text-xs text-amber-900 leading-relaxed font-medium">
+                    <div className="px-3 py-2.5 bg-gradient-to-r from-amber-50 to-orange-50 border-2 border-amber-300 rounded-xl text-xs text-amber-900 leading-relaxed font-medium">
                       <span className="font-bold">Hampir Sama:</span> Selisih
                       skor sangat tipis. Kembali pada prioritas Anda saat ini.
                     </div>
                   )}
 
                   {result.hasExtremeSacrifice && (
-                    <div className="px-3 py-2.5 bg-gradient-to-r from-red-50 to-rose-50 border-2 border-red-300 rounded-lg text-xs text-red-900 leading-relaxed font-medium">
+                    <div className="px-3 py-2.5 bg-gradient-to-r from-red-50 to-rose-50 border-2 border-red-300 rounded-xl text-xs text-red-900 leading-relaxed font-medium">
                       <span className="font-bold">Ada Dampak Berat:</span> Ada
                       pengorbanan yang cukup signifikan di salah satu pilihan.
                       {result.sacrifices.a &&
