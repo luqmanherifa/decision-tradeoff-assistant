@@ -11,25 +11,25 @@ export default function ConstraintsSection({
   if (options.length < 2) return null;
 
   return (
-    <div className="px-4 mb-5">
-      <div className="bg-white rounded-2xl border-2 border-orange-200 p-4">
-        <div className="mb-3">
-          <div className="flex items-center gap-2.5 mb-1.5">
-            <div className="w-9 h-9 rounded-full bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center flex-shrink-0">
+    <div className="px-5 mb-6">
+      <div className="bg-white rounded-xl border border-stone-200 p-5">
+        <div className="mb-4">
+          <div className="flex items-center gap-3 mb-2">
+            <div className="w-8 h-8 rounded-full bg-amber-500 flex items-center justify-center flex-shrink-0">
               <WarningTriangleIcon className="w-4 h-4 text-white" />
             </div>
-            <h2 className="text-xs font-bold text-slate-600 uppercase tracking-wider">
+            <h2 className="text-xs font-bold text-stone-600 uppercase tracking-wider">
               Batasan Penting
             </h2>
           </div>
-          <p className="text-xs text-slate-500 font-medium pl-11">
+          <p className="text-xs text-stone-500 font-medium tracking-normal pl-11">
             Ada yang tidak bisa dikompromikan? Tulis di sini
           </p>
         </div>
 
         <button
           onClick={onAddConstraint}
-          className="w-full mb-4 px-4 py-3 bg-gradient-to-br from-orange-500 to-orange-600 text-white rounded-xl text-sm font-bold"
+          className="w-full mb-4 px-4 py-3 bg-amber-500 hover:bg-amber-600 text-white rounded-lg text-sm font-bold transition-colors"
         >
           + Tambah Batasan
         </button>
@@ -61,25 +61,25 @@ function ConstraintItem({
   onRemove,
 }) {
   return (
-    <div className="border-2 border-orange-300 bg-orange-50 rounded-xl p-4">
+    <div className="border border-amber-200 bg-amber-50 rounded-xl p-4">
       <input
-        className="w-full px-3.5 py-3 border-2 border-orange-300 rounded-xl text-sm font-semibold mb-4 bg-white focus:outline-none focus:border-orange-400"
+        className="w-full px-4 py-3 border border-stone-300 rounded-lg text-sm font-semibold mb-4 bg-white text-stone-900 placeholder:text-stone-400 focus:outline-none focus:border-amber-500 transition-colors"
         placeholder="Anggaran kopi 300 ribu per bulan"
         value={constraint.text}
         onChange={(e) => onUpdate({ text: e.target.value })}
       />
 
       <div className="mb-4">
-        <h3 className="text-xs font-bold text-slate-600 uppercase tracking-wide mb-2.5">
+        <h3 className="text-xs font-bold text-stone-600 uppercase tracking-wider mb-3">
           Tingkat Batasan
         </h3>
 
-        <div className="grid grid-cols-2 gap-2.5 mb-3.5">
+        <div className="grid grid-cols-2 gap-2.5 mb-3">
           <label
-            className={`flex items-center gap-2.5 px-3.5 py-3 rounded-lg border-2 cursor-pointer ${
+            className={`flex items-center gap-2.5 px-3 py-3 rounded-lg border cursor-pointer transition-colors ${
               constraint.type === "soft"
-                ? "bg-amber-100 border-amber-400"
-                : "bg-white border-orange-200"
+                ? "bg-white border-amber-400"
+                : "bg-white border-stone-200 hover:border-stone-300"
             }`}
           >
             <input
@@ -87,21 +87,23 @@ function ConstraintItem({
               name={`type-${constraint.id}`}
               checked={constraint.type === "soft"}
               onChange={() => onUpdate({ type: "soft" })}
-              className="w-4 h-4 border-2 border-slate-400 text-amber-600 focus:ring-0 focus:ring-offset-0"
+              className="w-4 h-4 text-amber-500 focus:ring-0 focus:ring-offset-0"
             />
             <div className="flex-1">
-              <div className="text-xs font-bold text-slate-800">Lunak</div>
-              <div className="text-xs text-amber-700 font-semibold">
+              <div className="text-xs font-bold text-stone-800 tracking-normal">
+                Lunak
+              </div>
+              <div className="text-xs text-amber-600 font-semibold tracking-normal">
                 Kena penalti
               </div>
             </div>
           </label>
 
           <label
-            className={`flex items-center gap-2.5 px-3.5 py-3 rounded-lg border-2 cursor-pointer ${
+            className={`flex items-center gap-2.5 px-3 py-3 rounded-lg border cursor-pointer transition-colors ${
               constraint.type === "hard"
-                ? "bg-red-100 border-red-400"
-                : "bg-white border-orange-200"
+                ? "bg-white border-rose-400"
+                : "bg-white border-stone-200 hover:border-stone-300"
             }`}
           >
             <input
@@ -109,23 +111,27 @@ function ConstraintItem({
               name={`type-${constraint.id}`}
               checked={constraint.type === "hard"}
               onChange={() => onUpdate({ type: "hard" })}
-              className="w-4 h-4 border-2 border-slate-400 text-red-600 focus:ring-0 focus:ring-offset-0"
+              className="w-4 h-4 text-rose-500 focus:ring-0 focus:ring-offset-0"
             />
             <div className="flex-1">
-              <div className="text-xs font-bold text-slate-800">Keras</div>
-              <div className="text-xs text-red-700 font-bold">GUGUR</div>
+              <div className="text-xs font-bold text-stone-800 tracking-normal">
+                Keras
+              </div>
+              <div className="text-xs text-rose-600 font-bold tracking-normal">
+                GUGUR
+              </div>
             </div>
           </label>
         </div>
 
         {constraint.type === "soft" && (
-          <div className="bg-white border-2 border-amber-300 rounded-lg p-3">
-            <label className="text-xs text-amber-900 font-bold block mb-2 uppercase tracking-wide">
+          <div className="bg-white border border-amber-200 rounded-lg p-3">
+            <label className="text-xs text-amber-700 font-bold block mb-2 uppercase tracking-wider">
               Penalti kalau dilanggar
             </label>
             <input
               type="number"
-              className="w-full px-3 py-2.5 border-2 border-amber-300 rounded-lg text-sm font-bold text-center focus:outline-none focus:border-amber-400"
+              className="w-full px-3 py-2.5 border border-stone-300 rounded-lg text-sm font-bold text-center text-stone-900 placeholder:text-stone-400 focus:outline-none focus:border-amber-500 transition-colors"
               value={constraint.penalty}
               onChange={(e) => onUpdate({ penalty: Number(e.target.value) })}
             />
@@ -134,22 +140,22 @@ function ConstraintItem({
       </div>
 
       <div className="mb-4">
-        <h3 className="text-xs font-bold text-slate-600 mb-2.5 uppercase tracking-wide">
+        <h3 className="text-xs font-bold text-stone-600 mb-3 uppercase tracking-wider">
           Pilihan yang Memenuhi
         </h3>
-        <div className="bg-white border-2 border-orange-200 rounded-lg p-2.5 space-y-2">
+        <div className="bg-white border border-stone-200 rounded-lg p-2.5 space-y-2">
           {options.map((opt) => (
             <label
               key={opt.id}
-              className="flex items-center gap-2.5 px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-lg cursor-pointer hover:border-orange-300"
+              className="flex items-center gap-3 px-3 py-2.5 bg-stone-50 border border-stone-200 rounded-lg cursor-pointer hover:border-amber-300 hover:bg-stone-100 transition-colors"
             >
               <input
                 type="checkbox"
                 checked={constraint.checks[opt.id] === true}
                 onChange={(e) => onUpdateCheck(opt.id, e.target.checked)}
-                className="w-4 h-4 rounded border-2 border-slate-400 text-orange-600 focus:ring-0 focus:ring-offset-0"
+                className="w-4 h-4 rounded border-stone-400 text-amber-500 focus:ring-0 focus:ring-offset-0"
               />
-              <span className="text-sm text-slate-700 font-semibold flex-1">
+              <span className="text-sm text-stone-700 font-semibold flex-1 tracking-normal">
                 {opt.title || `Pilihan ${options.indexOf(opt) + 1}`}
               </span>
             </label>
@@ -159,7 +165,7 @@ function ConstraintItem({
 
       <button
         onClick={onRemove}
-        className="w-full px-4 py-2.5 text-sm text-red-700 font-bold bg-white border-2 border-red-300 rounded-lg hover:bg-red-50"
+        className="w-full px-4 py-2.5 text-sm text-rose-600 font-bold bg-white border border-stone-300 rounded-lg hover:bg-rose-50 hover:border-rose-300 transition-colors"
       >
         Hapus Batasan
       </button>
