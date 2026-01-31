@@ -46,7 +46,9 @@ export default function ConstraintsSection({
 
         <button
           onClick={onAddConstraint}
-          className="w-full mb-4 px-4 py-3 bg-amber-500 hover:bg-amber-600 text-white rounded-lg text-sm font-bold transition-colors"
+          className={`w-full px-4 py-3 bg-amber-500 hover:bg-amber-600 text-white rounded-lg text-sm font-bold transition-colors ${
+            constraints.length > 0 ? "mb-4" : ""
+          }`}
         >
           + Tambah Batasan
         </button>
