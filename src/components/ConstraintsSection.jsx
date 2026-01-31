@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { WarningTriangleIcon, InfoIcon } from "./icons";
+import { WarningTriangleIcon, InfoIcon, PlusIcon } from "./icons";
 
 export default function ConstraintsSection({
   constraints,
@@ -46,11 +46,12 @@ export default function ConstraintsSection({
 
         <button
           onClick={onAddConstraint}
-          className={`w-full px-4 py-3 bg-amber-500 hover:bg-amber-600 text-white rounded-lg text-sm font-bold transition-colors ${
+          className={`w-full px-4 py-3 bg-amber-500 hover:bg-amber-600 text-white rounded-lg text-sm font-bold transition-colors flex items-center justify-center gap-2 ${
             constraints.length > 0 ? "mb-4" : ""
           }`}
         >
-          + Tambah Batasan
+          <PlusIcon className="w-4 h-4" />
+          Tambah Batasan
         </button>
 
         <div className="space-y-3">

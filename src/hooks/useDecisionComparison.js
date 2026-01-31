@@ -57,6 +57,17 @@ export function useDecisionComparison() {
     setOptions((prev) => prev.map((o) => (o.id === id ? { ...o, title } : o)));
   };
 
+  const removeOption = (id) => {
+    setOptions((prev) => prev.filter((o) => o.id !== id));
+
+    setConstraints((prev) =>
+      prev.map((c) => {
+        const { [id]: removed, ...remainingChecks } = c.checks;
+        return { ...c, checks: remainingChecks };
+      }),
+    );
+  };
+
   const addImpact = (optionId) => {
     setOptions((prev) =>
       prev.map((o) =>
@@ -132,33 +143,36 @@ export function useDecisionComparison() {
 
     const [a, b] = options;
 
-    const allDims = new Set([
-      ...a.impacts.map((i) => i.dimension),
-      ...b.impacts.map((i) => i.dimension),
-    ]);
+    const allDims = new Set();
+    options.forEach((opt) => {
+      opt.impacts.forEach((i) => allDims.add(i.dimension));
+    });
 
-    const deltas = [...allDims]
-      .map((dim) => {
-        const aVal = a.impacts
-          .filter((i) => i.dimension === dim)
-          .reduce((s, i) => s + Number(i.value || 0), 0);
+    const deltas =
+      a && b
+        ? [...allDims]
+            .map((dim) => {
+              const aVal = a.impacts
+                .filter((i) => i.dimension === dim)
+                .reduce((s, i) => s + Number(i.value || 0), 0);
 
-        const bVal = b.impacts
-          .filter((i) => i.dimension === dim)
-          .reduce((s, i) => s + Number(i.value || 0), 0);
+              const bVal = b.impacts
+                .filter((i) => i.dimension === dim)
+                .reduce((s, i) => s + Number(i.value || 0), 0);
 
-        return {
-          dimension: dim,
-          aVal,
-          bVal,
-          delta: bVal - aVal,
-        };
-      })
-      .filter((d) => d.delta !== 0)
-      .sort((x, y) => Math.abs(y.delta) - Math.abs(x.delta));
+              return {
+                dimension: dim,
+                aVal,
+                bVal,
+                delta: bVal - aVal,
+              };
+            })
+            .filter((d) => d.delta !== 0)
+            .sort((x, y) => Math.abs(y.delta) - Math.abs(x.delta))
+        : [];
 
     const getBiggestSacrifice = (option) => {
-      if (option.impacts.length === 0) return null;
+      if (!option || option.impacts.length === 0) return null;
       const negatives = option.impacts.filter((i) => Number(i.value) < 0);
       if (negatives.length === 0) return null;
 
@@ -173,21 +187,34 @@ export function useDecisionComparison() {
       };
     };
 
-    const sacrifices = {
-      a: getBiggestSacrifice(a),
-      b: getBiggestSacrifice(b),
-    };
+    const sacrifices = {};
+    options.forEach((opt) => {
+      sacrifices[opt.id] = getBiggestSacrifice(opt);
+    });
 
-    const totalA = totals[0].total;
-    const totalB = totals[1].total;
-    const scoreDiff = Math.abs(totalA - totalB);
-    const closeCallThreshold = 3;
+    if (a) sacrifices.a = getBiggestSacrifice(a);
+    if (b) sacrifices.b = getBiggestSacrifice(b);
 
-    const isCloseCall = scoreDiff <= closeCallThreshold;
+    const sortedTotals = [...totals].sort((x, y) => {
+      if (x.isDisqualified && !y.isDisqualified) return 1;
+      if (!x.isDisqualified && y.isDisqualified) return -1;
+      return y.total - x.total;
+    });
 
-    const hasExtremeSacrifice =
-      (sacrifices.a && sacrifices.a.value <= -5) ||
-      (sacrifices.b && sacrifices.b.value <= -5);
+    const qualifiedTotals = sortedTotals.filter((t) => !t.isDisqualified);
+
+    let isCloseCall = false;
+    if (qualifiedTotals.length >= 2) {
+      const scoreDiff = Math.abs(
+        qualifiedTotals[0].total - qualifiedTotals[1].total,
+      );
+      const closeCallThreshold = 3;
+      isCloseCall = scoreDiff <= closeCallThreshold;
+    }
+
+    const hasExtremeSacrifice = Object.values(sacrifices).some(
+      (sac) => sac && sac.value <= -5,
+    );
 
     return {
       totals,
@@ -242,6 +269,7 @@ export function useDecisionComparison() {
     removeConstraint,
     addOption,
     updateOptionTitle,
+    removeOption,
     addImpact,
     updateImpact,
 
