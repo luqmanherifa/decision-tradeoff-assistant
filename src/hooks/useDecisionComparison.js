@@ -7,6 +7,7 @@ export function useDecisionComparison() {
   const [filterMode, setFilterMode] = useState("all");
   const [constraints, setConstraints] = useState([]);
   const [viewMode, setViewMode] = useState("detail");
+  const [isDecisionConfirmed, setIsDecisionConfirmed] = useState(false);
 
   const addConstraint = () => {
     setConstraints((prev) => [
@@ -228,10 +229,12 @@ export function useDecisionComparison() {
     filterMode,
     constraints,
     viewMode,
+    isDecisionConfirmed,
 
     setDecisionContext,
     setFilterMode,
     setViewMode,
+    setIsDecisionConfirmed,
 
     addConstraint,
     updateConstraint,

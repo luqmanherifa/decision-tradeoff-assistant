@@ -12,9 +12,11 @@ export default function App() {
     filterMode,
     constraints,
     viewMode,
+    isDecisionConfirmed,
     setDecisionContext,
     setFilterMode,
     setViewMode,
+    setIsDecisionConfirmed,
     addConstraint,
     updateConstraint,
     updateConstraintCheck,
@@ -35,33 +37,39 @@ export default function App() {
         <DecisionContext
           value={decisionContext}
           onChange={setDecisionContext}
+          onConfirm={() => setIsDecisionConfirmed(true)}
+          isConfirmed={isDecisionConfirmed}
         />
 
-        <OptionsSection
-          options={options}
-          viewMode={viewMode}
-          onViewModeChange={setViewMode}
-          onAddOption={addOption}
-          onUpdateTitle={updateOptionTitle}
-          onAddImpact={addImpact}
-          onUpdateImpact={updateImpact}
-        />
+        {isDecisionConfirmed && (
+          <>
+            <OptionsSection
+              options={options}
+              viewMode={viewMode}
+              onViewModeChange={setViewMode}
+              onAddOption={addOption}
+              onUpdateTitle={updateOptionTitle}
+              onAddImpact={addImpact}
+              onUpdateImpact={updateImpact}
+            />
 
-        <ConstraintsSection
-          constraints={constraints}
-          options={options}
-          onAddConstraint={addConstraint}
-          onUpdateConstraint={updateConstraint}
-          onUpdateCheck={updateConstraintCheck}
-          onRemoveConstraint={removeConstraint}
-        />
+            <ConstraintsSection
+              constraints={constraints}
+              options={options}
+              onAddConstraint={addConstraint}
+              onUpdateConstraint={updateConstraint}
+              onUpdateCheck={updateConstraintCheck}
+              onRemoveConstraint={removeConstraint}
+            />
 
-        <ResultsSection
-          result={result}
-          filterMode={filterMode}
-          filteredDeltas={filteredDeltas}
-          onFilterModeChange={setFilterMode}
-        />
+            <ResultsSection
+              result={result}
+              filterMode={filterMode}
+              filteredDeltas={filteredDeltas}
+              onFilterModeChange={setFilterMode}
+            />
+          </>
+        )}
       </div>
     </div>
   );
