@@ -288,15 +288,24 @@ function QuickView({
                         </div>
 
                         <input
-                          type="number"
+                          type="text"
+                          inputMode="numeric"
                           className="w-14 flex-shrink-0 px-1.5 py-1.5 border border-stone-300 rounded-md text-xs font-bold text-center text-stone-900 placeholder:text-stone-400 focus:outline-none focus:border-amber-500 transition-colors"
                           placeholder="0"
-                          value={impact.value}
-                          onChange={(e) =>
-                            onUpdateImpact(opt.id, impact.id, {
-                              value: Number(e.target.value),
-                            })
-                          }
+                          value={impact.value === 0 ? "" : impact.value}
+                          onChange={(e) => {
+                            const val = e.target.value;
+                            if (
+                              val === "" ||
+                              val === "-" ||
+                              /^-?\d+$/.test(val)
+                            ) {
+                              onUpdateImpact(opt.id, impact.id, {
+                                value:
+                                  val === "" || val === "-" ? 0 : Number(val),
+                              });
+                            }
+                          }}
                         />
                       </div>
                     </div>
@@ -363,11 +372,17 @@ function ImpactItem({ impact, optionIndex, onUpdate }) {
         </div>
 
         <input
-          type="number"
+          type="text"
+          inputMode="numeric"
           className="w-16 px-2.5 py-2 border border-stone-300 rounded-lg text-xs font-bold text-center text-stone-900 placeholder:text-stone-400 focus:outline-none focus:border-amber-500 transition-colors"
           placeholder="0"
-          value={impact.value}
-          onChange={(e) => onUpdate({ value: Number(e.target.value) })}
+          value={impact.value === 0 ? "" : impact.value}
+          onChange={(e) => {
+            const val = e.target.value;
+            if (val === "" || val === "-" || /^-?\d+$/.test(val)) {
+              onUpdate({ value: val === "" || val === "-" ? 0 : Number(val) });
+            }
+          }}
         />
       </div>
 
