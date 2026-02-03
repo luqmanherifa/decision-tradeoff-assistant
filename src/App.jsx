@@ -34,14 +34,12 @@ export default function App() {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 pb-8">
       <div className="max-w-md mx-auto">
         <Header />
-
         <DecisionContext
           value={decisionContext}
           onChange={setDecisionContext}
           onConfirm={() => setIsDecisionConfirmed(true)}
           isConfirmed={isDecisionConfirmed}
         />
-
         {isDecisionConfirmed && (
           <>
             <OptionsSection
@@ -54,7 +52,6 @@ export default function App() {
               onUpdateImpact={updateImpact}
               onRemoveOption={removeOption}
             />
-
             <ConstraintsSection
               constraints={constraints}
               options={options}
@@ -63,7 +60,6 @@ export default function App() {
               onUpdateCheck={updateConstraintCheck}
               onRemoveConstraint={removeConstraint}
             />
-
             <ResultsSection
               result={result}
               filterMode={filterMode}
@@ -72,6 +68,20 @@ export default function App() {
             />
           </>
         )}
+
+        <div className="w-full pt-6 text-center">
+          <p className="text-xs text-stone-500 font-normal">
+            © {new Date().getFullYear()}{" "}
+            <a
+              href="https://github.com/luqmanherifa"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-stone-600 transition-colors"
+            >
+              Luqman Herifa
+            </a>
+          </p>
+        </div>
       </div>
     </div>
   );
