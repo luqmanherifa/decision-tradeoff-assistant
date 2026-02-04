@@ -31,16 +31,14 @@ export default function DecisionContext({
             Keputusan Apa?
           </h2>
         </div>
-
         <div className="flex items-center gap-2">
           <input
-            className="flex-1 px-4 py-3 border border-stone-300 rounded-lg text-sm text-stone-900 placeholder:text-stone-400 focus:outline-none focus:border-amber-500 transition-colors bg-stone-50 disabled:bg-stone-100 disabled:text-stone-700 disabled:cursor-not-allowed"
+            className="flex-1 px-4 py-2.5 border border-stone-300 rounded-lg text-sm text-stone-900 placeholder:text-stone-400 focus:outline-none focus:border-amber-500 transition-colors bg-stone-50 disabled:bg-stone-100 disabled:text-stone-700 disabled:cursor-not-allowed"
             placeholder="Beli kopi di kafe atau bikin sendiri?"
             value={value}
             onChange={(e) => onChange(e.target.value)}
             disabled={!isEditing}
           />
-
           {isEditing ? (
             <button
               onClick={handleConfirm}
@@ -48,7 +46,7 @@ export default function DecisionContext({
               className="w-10 h-10 flex-shrink-0 bg-amber-500 hover:bg-amber-600 text-white rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
               title="Simpan"
             >
-              <CheckIcon className="w-5 h-5" />
+              <CheckIcon className="w-4 h-4" />
             </button>
           ) : (
             <button
@@ -56,7 +54,7 @@ export default function DecisionContext({
               className="w-10 h-10 flex-shrink-0 bg-stone-100 hover:bg-stone-200 text-stone-700 border border-stone-300 rounded-lg transition-colors flex items-center justify-center"
               title="Ubah"
             >
-              <EditIcon className="w-5 h-5" />
+              <EditIcon className="w-4 h-4" />
             </button>
           )}
         </div>
